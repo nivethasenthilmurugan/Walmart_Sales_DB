@@ -1,0 +1,219 @@
+create database Walmart_Sales_DB;
+USE Walmart_Sales_DB;
+
+
+CREATE TABLE Walmart_Sales (
+    InvoiceID VARCHAR(20) PRIMARY KEY,
+    Branch VARCHAR(5),
+    City VARCHAR(30),
+    CustomerType VARCHAR(20),
+    Gender VARCHAR(10),
+    ProductLine VARCHAR(100),
+    UnitPrice DECIMAL(10,2),
+    Quantity INT,
+    Tax DECIMAL(10,2),
+    Total DECIMAL(10,2),
+    Date DATE,
+    Time TIME,
+    Payment VARCHAR(20),
+    COGS DECIMAL(10,2),
+    GrossMarginPercentage DECIMAL(10,2),
+    GrossIncome DECIMAL(10,2),
+    Rating DECIMAL(3,1)
+);
+
+
+INSERT INTO Walmart_Sales
+(InvoiceID, Branch, City, CustomerType, Gender, ProductLine, UnitPrice,
+ Quantity, Tax, Total, Date, [Time], Payment, COGS,
+ GrossMarginPercentage, GrossIncome, Rating)
+VALUES
+('INV001','A','Chennai','Member','Female','Electronic Accessories',1200.00,2,120.00,2520.00,'2024-01-05','10:15:00','Cash',2400.00,4.76,120.00,8.5),
+
+('INV002','B','Bangalore','Normal','Male','Fashion Accessories',850.00,3,127.50,2677.50,'2024-01-06','11:30:00','Credit Card',2550.00,5.00,127.50,7.9),
+
+('INV003','C','Hyderabad','Member','Female','Food and Beverages',450.00,5,112.50,2362.50,'2024-01-08','09:45:00','Ewallet',2250.00,5.00,112.50,9.2),
+
+('INV004','A','Chennai','Normal','Male','Health and Beauty',1500.00,1,75.00,1575.00,'2024-01-10','14:20:00','Cash',1500.00,5.00,75.00,8.1),
+
+('INV005','B','Bangalore','Member','Female','Sports and Travel',2200.00,2,220.00,4620.00,'2024-01-12','16:10:00','Credit Card',4400.00,5.00,220.00,9.5),
+
+('INV006','C','Hyderabad','Normal','Male','Home and Lifestyle',1800.00,4,360.00,7560.00,'2024-01-15','13:40:00','Cash',7200.00,5.00,360.00,8.7),
+
+('INV007','A','Chennai','Member','Female','Fashion Accessories',900.00,6,270.00,5670.00,'2024-01-18','12:25:00','Ewallet',5400.00,5.00,270.00,9.0),
+
+('INV008','B','Bangalore','Normal','Male','Electronic Accessories',3000.00,1,150.00,3150.00,'2024-01-20','15:35:00','Cash',3000.00,5.00,150.00,8.4),
+
+('INV009','C','Hyderabad','Member','Female','Food and Beverages',600.00,8,240.00,5040.00,'2024-01-22','17:45:00','Credit Card',4800.00,5.00,240.00,9.3),
+
+('INV010','A','Chennai','Normal','Male','Health and Beauty',2000.00,3,300.00,6300.00,'2024-01-25','18:20:00','Ewallet',6000.00,5.00,300.00,8.8);
+
+SELECT SUM(Total) AS TotalSales
+FROM Walmart_Sales;
+
+SELECT COUNT(*) AS TotalOrders
+FROM Walmart_Sales;
+
+SELECT AVG(Total) AS AverageOrderValue
+FROM Walmart_Sales;
+
+SELECT
+Branch,
+SUM(Total) AS TotalSales
+FROM Walmart_Sales
+GROUP BY Branch
+ORDER BY TotalSales DESC;
+
+SELECT
+City,
+SUM(Total) AS TotalSales
+FROM Walmart_Sales
+GROUP BY City
+ORDER BY TotalSales DESC;
+
+SELECT
+Branch,
+SUM(GrossIncome) AS Profit
+FROM Walmart_Sales
+GROUP BY Branch
+ORDER BY Profit DESC;
+
+SELECT top 1 Branch,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY Branch
+ORDER BY Sales DESC;
+
+
+SELECT TOP 1
+Branch,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY Branch
+ORDER BY Sales DESC;
+
+SELECT
+MONTH(Date) AS Month,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY MONTH(Date)
+ORDER BY Month;
+
+SELECT
+MONTH(Date) AS Month,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY MONTH(Date)
+ORDER BY Month;
+
+SELECT
+Date,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY Date
+ORDER BY Date;
+
+SELECT
+DATENAME(WEEKDAY, Date) AS DayName,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY DATENAME(WEEKDAY, Date);
+
+SELECT
+Gender,
+COUNT(*) AS Customers
+FROM Walmart_Sales
+GROUP BY Gender;
+
+SELECT
+CustomerType,
+COUNT(*) AS TotalCustomers
+FROM Walmart_Sales
+GROUP BY CustomerType;
+
+SELECT
+CustomerType,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY CustomerType;
+
+SELECT
+AVG(Rating) AS AverageRating
+FROM Walmart_Sales;
+
+SELECT
+Branch,
+AVG(Rating) AS AvgRating
+FROM Walmart_Sales
+GROUP BY Branch;
+
+SELECT
+ProductLine,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY ProductLine
+ORDER BY Sales DESC;
+
+SELECT
+ProductLine,
+SUM(Quantity) AS QuantitySold
+FROM Walmart_Sales
+GROUP BY ProductLine;
+
+SELECT
+ProductLine,
+AVG(UnitPrice) AS AveragePrice
+FROM Walmart_Sales
+GROUP BY ProductLine;
+
+SELECT
+ProductLine,
+SUM(GrossIncome) AS Profit
+FROM Walmart_Sales
+GROUP BY ProductLine
+ORDER BY Profit DESC;
+
+SELECT top 1
+ProductLine,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY ProductLine
+ORDER BY Sales DESC;
+
+SELECT TOP 1
+ProductLine,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY ProductLine
+ORDER BY Sales DESC;
+
+SELECT TOP 10 *
+FROM Walmart_Sales
+ORDER BY Total DESC;
+
+SELECT
+Date,
+Total,
+SUM(Total) OVER(ORDER BY Date) AS RunningTotal
+FROM Walmart_Sales;
+
+SELECT
+Branch,
+SUM(Total) AS Sales,
+DENSE_RANK() OVER(ORDER BY SUM(Total) DESC) AS BranchRank
+FROM Walmart_Sales
+GROUP BY Branch;
+
+SELECT TOP 1
+Date,
+SUM(Total) AS Sales
+FROM Walmart_Sales
+GROUP BY Date
+ORDER BY Sales DESC;
+
+SELECT TOP 1
+ProductLine,
+AVG(Rating) AS AvgRating
+FROM Walmart_Sales
+GROUP BY ProductLine
+ORDER BY AvgRating DESC;
