@@ -1,0 +1,20 @@
+DateTable =
+CALENDAR(
+MIN(Walmart_Sales[Date]),
+MAX(Walmart_Sales[Date])
+)
+Year = YEAR(DateTable[Date])
+Month = FORMAT(DateTable[Date],"MMMM")
+MonthNo = MONTH(DateTable[Date])
+Quarter = "Q" & FORMAT(DateTable[Date],"Q")
+Total Sales =
+SUM(Walmart_Sales[Total])
+Total Orders =
+COUNT(Walmart_Sales[InvoiceID])
+Total Quantity =
+SUM(Walmart_Sales[Quantity])
+Total Profit =
+SUM(Walmart_Sales[GrossIncome])
+Average Sales = AVERAGE(Walmart_Sales[Total])
+Average Rating =AVERAGE(Walmart_Sales[Rating])
+Average Quantity =AVERAGE(Walmart_Sales[Quantity])
